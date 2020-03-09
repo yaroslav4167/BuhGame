@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Buh of Chet</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <script src="js/main.js?v=3" defer></script>
+  </head>
+  <body>
+    <center>
+      <img src="buhgame-assets/VL-2.png" alt="" width=150>
+    </center>
+
+    <div id='buhgame'>
+      <center><h2>{{text1}}</h2><h2>{{time}}</h2><center>
+      <div style="display: flex; margin: auto" id='buhgame'>
+        <div style="display: flex; margin: auto">
+          <template v-if='gStarted'>
+            <table>
+              <tr></tr>
+              <tr>
+                <td style="text-align:center;vertical-align:middle;">
+                  <template v-if='qType == 1'>
+                    <input type="number" v-model='answer' @keyup.enter="pickAnsw()">
+                  </template>
+                  <template v-if='qType == 2'>
+                    <input type="radio" v-bind:value="currQData[1][0]"
+                      v-model="answer">
+                    <label>{{currQData[1][0]}}</label>
+                    <br>
+                    <input type="radio" v-bind:value="currQData[1][1]"
+                      v-model="answer">
+                    <label>{{currQData[1][1]}}</label>
+                    <br>
+                    <input type="radio" v-bind:value="currQData[1][2]"
+                      v-model="answer">
+                    <label>{{currQData[1][2]}}</label>
+                    <br>
+                  </template>
+                  <button class='tertiary' @click="pickAnsw()">OK</button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <progress v-bind:value="currQuest" v-bind:max='maxQests'></progress>
+                  Текущий вопрос: {{currQuest}}<br>
+                  Верно отвечено на: {{currQuest-fails-1}}
+                </td>
+              </tr>
+            </table>
+          </template>
+          <template v-else>
+            <input type="number" placeholder="Кол-во вопросов" v-model='maxQests'>
+            <button class='tertiary' @click="startGame()">Начать зачёт</button>
+          </template>
+        </div>
+      </div>
+    </div>
+    <script type="text/javascript">
+
+    </script>
+    <br>
+    <footer><p>© 2020 Yaroslavik</footer>
+  </body>
+</html>
