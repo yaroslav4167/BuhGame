@@ -3,7 +3,8 @@
   <head>
     <meta charset="utf-8">
     <title>Buh of Chet</title>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <!--script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script-->
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mini.css/3.0.1/mini-default.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
     <script src="js/main.js?v=3" defer></script>
@@ -14,7 +15,19 @@
     </center>
 
     <div id='buhgame'>
-      <center><h2>{{text1}}</h2><h2>{{time}}</h2><center>
+      <center>
+        <h2>{{text1}}</h2>
+
+        <h2 v-if='time > 10' style="color: purple">
+          <b>{{time}}</b>
+        </h2>
+        <h2 v-if='time > 5 && time <= 10' style="color: orange">
+          <b>{{time}}</b>
+        </h2>
+        <h2 v-if='time >= 0 && time <= 5' style="color: red">
+          <b>{{time}}</b>
+        </h2>
+      <center>
       <div style="display: flex; margin: auto" id='buhgame'>
         <div style="display: flex; margin: auto">
           <template v-if='gStarted'>
@@ -53,6 +66,7 @@
           </template>
           <template v-else>
             <input type="number" placeholder="Кол-во вопросов" v-model='maxQests'>
+            <input type="number" placeholder="Время на вопрос (с)" v-model='maxTime'>
             <button class='tertiary' @click="startGame()">Начать зачёт</button>
           </template>
         </div>

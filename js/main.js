@@ -77,6 +77,7 @@ data: {
   questsToZ: [],
   answer: '',
   maxQests: '',
+  maxTime: '',
   currQuest: 15,
   currQData: [],
   currAnsw: '',
@@ -94,7 +95,7 @@ methods: {
 	}
 	this.currQuest = 1;
 	this.fails = 0;
-	this.time = 20;
+	this.time = this.maxTime == ''?20:parseInt(this.maxTime);
 	this.questsToZ = this.allQusets.slice();
 	this.questsToZ = this.questsToZ.sort(function(){
 	  return Math.random() - 0.5;
@@ -128,7 +129,7 @@ methods: {
 	}
 	//Новый вопрос
 	this.genQuest();
-  this.time = 20;
+  this.time = this.maxTime == ''?20:parseInt(this.maxTime);
 
 	this.answer = '';
 	this.currQuest++;
@@ -140,8 +141,22 @@ methods: {
 	  } else {
 	     this.time--;
     }
-	  setTimeout("bg.timer()", 1000);
+
+    if(this.time < 5) {
+      bg.miliTimer();
+    } else {
+      setTimeout("bg.timer()", 1000);
+    }
 	}
+  },
+  miliTimer: function() {
+    this.time = (this.time-0.01).toFixed(3);
+    if(this.time <= 0) {
+      this.pickAnsw();
+      bg.timer();
+    } else {
+      setTimeout("bg.miliTimer()", 10);
+    }
   },
   checkAnsw: function() {
 	return this.currAnsw == this.answer.trim();
@@ -160,19 +175,19 @@ methods: {
 	} else {
 	  this.qType = 1;
 	}
-	this.text1 = this.currQData[0];
+	this.text1 = 'Вопрос: '+this.currQData[0];
   },
   calculateResult: function() {
 	if(this.fails >= 4) {
 	  Swal.fire(
 		'Незачёт!',
-		'4 неверных ответа!',
+		'4 неверных ответа!<br>'+'Правильный ответ: '+this.currAnsw,
 		'error'
 	  );
 	} else {
 	  Swal.fire(
 		'Отлично',
-		'Вы сдали этот зачёт!',
+		'Вы сдали этот зачёт!<br>'+'Правильный ответ: '+this.currAnsw,
 		'success'
 	  );
 	}
