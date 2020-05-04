@@ -116,96 +116,83 @@ methods: {
 	this.timer();
   },
   pickAnsw: function() {
-	if(this.checkAnsw()) {
-	  this.splashToast("VL-"+this.getRandomInt(1,2), "Верно!");
-	} else {
-	  this.fails++;
-	  this.splashToast("VL-"+this.getRandomInt(1,2)+"-Z", "Не верно!", "Ответ: "+this.currAnsw);
-	}
-	//Проверка условий жизни экзамена
-	if((this.currQuest == this.maxQests) || (this.fails >= 4)) {
-	  this.calculateResult();
-    return;
-	}
-	//Новый вопрос
-	this.genQuest();
-  this.time = this.maxTime == ''?20:parseInt(this.maxTime);
+  	if(this.checkAnsw()) {
+  	  this.splashToast("VL-"+this.getRandomInt(1,2), "Верно!");
+  	} else {
+  	  this.fails++;
+  	  this.splashToast("VL-"+this.getRandomInt(1,2)+"-Z", "Не верно!", "Ответ: "+this.currAnsw);
+  	}
+  	//Проверка условий жизни экзамена
+  	if((this.currQuest == this.maxQests) || (this.fails >= 4)) {
+  	  this.calculateResult();
+      return;
+  	}
+  	//Новый вопрос
+  	this.genQuest();
+    this.time = this.maxTime == ''?20:parseInt(this.maxTime);
 
-	this.answer = '';
-	this.currQuest++;
+  	this.answer = '';
+  	this.currQuest++;
   },
   timer: function() {
-	if(this.gStarted) {
-	  if(this.time <= 0) {
-		    this.pickAnsw();
-	  } else {
-	     this.time--;
-    }
+  	if(this.gStarted) {
+  	  if(this.time <= 0) {
+  		    this.pickAnsw();
+  	  } else {
+  	     this.time--;
+      }
 
-    if(this.time < 5) {
-      bg.miliTimer();
-    } else {
       setTimeout("bg.timer()", 1000);
-    }
-	}
-  },
-  miliTimer: function() {
-    this.time = (this.time-0.01).toFixed(3);
-    if(this.time <= 0) {
-      this.pickAnsw();
-      bg.timer();
-    } else {
-      setTimeout("bg.miliTimer()", 10);
-    }
+  	}
   },
   checkAnsw: function() {
-	return this.currAnsw == this.answer.trim();
+	   return this.currAnsw == this.answer.trim();
   },
   genQuest: function() {
-	this.currQData = this.questsToZ.pop();
-	this.currAnsw = this.currQData[1];
-	if(this.currQData[2] == 2) {
-	  this.currQData[1] = [this.currQData[1],
-						  this.allQusets[this.getRandomInt(0,this.allQusets.length-1)][0],
-						  this.allQusets[this.getRandomInt(0,this.allQusets.length-1)][0]];
-	  this.currQData[1] = this.currQData[1].sort(function(){
-		return Math.random() - 0.5;
-	  });
-	  this.qType = 2;
-	} else {
-	  this.qType = 1;
-	}
-	this.text1 = 'Вопрос: '+this.currQData[0];
+  	this.currQData = this.questsToZ.pop();
+  	this.currAnsw = this.currQData[1];
+  	if(this.currQData[2] == 2) {
+  	  this.currQData[1] = [this.currQData[1],
+  						  this.allQusets[this.getRandomInt(0,this.allQusets.length-1)][0],
+  						  this.allQusets[this.getRandomInt(0,this.allQusets.length-1)][0]];
+  	  this.currQData[1] = this.currQData[1].sort(function(){
+  		return Math.random() - 0.5;
+  	  });
+  	  this.qType = 2;
+  	} else {
+  	  this.qType = 1;
+  	}
+  	this.text1 = 'Вопрос: '+this.currQData[0];
   },
   calculateResult: function() {
-	if(this.fails >= 4) {
-	  Swal.fire(
-		'Незачёт!',
-		'4 неверных ответа!<br>'+'Правильный ответ: '+this.currAnsw,
-		'error'
-	  );
-	} else {
-	  Swal.fire(
-		'Отлично',
-		'Вы сдали этот зачёт!<br>'+'Правильный ответ: '+this.currAnsw,
-		'success'
-	  );
-	}
-	this.gStarted = false;
-	this.text1 = 'Buh of Chet';
-	this.time = '';
-	return true;
-  },
-  splashToast: function(imgIndex, text = 'Toast text', addText = '') {
-	Toast.fire({
-	  imageUrl: 'buhgame-assets/'+imgIndex+'.png',
-	  imageWidth: 60,
-	  title: text,
-	  text: addText
-	})
+  	if(this.fails >= 4) {
+  	  Swal.fire(
+  		'Незачёт!',
+  		'4 неверных ответа!<br>'+'Правильный ответ: '+this.currAnsw,
+  		'error'
+  	  );
+  	} else {
+  	  Swal.fire(
+  		'Отлично',
+  		'Вы сдали этот зачёт!<br>'+'Правильный ответ: '+this.currAnsw,
+  		'success'
+  	  );
+  	}
+  	this.gStarted = false;
+  	this.text1 = 'Buh of Chet';
+  	this.time = '';
+  	return true;
+    },
+    splashToast: function(imgIndex, text = 'Toast text', addText = '') {
+  	Toast.fire({
+  	  imageUrl: 'buhgame-assets/'+imgIndex+'.png',
+  	  imageWidth: 60,
+  	  title: text,
+  	  text: addText
+  	})
   },
   getRandomInt: function(min, max) {
-	return Math.floor(Math.random() * (max - min + 1)) + min;
+	   return Math.floor(Math.random() * (max - min + 1)) + min;
   }
 }
 });
