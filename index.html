@@ -67,6 +67,11 @@
           <template v-else>
             <input type="number" placeholder="Кол-во вопросов" v-model='maxQests'>
             <input type="number" placeholder="Время на вопрос (с)" v-model='maxTime'>
+            <select v-model='gameType'>
+              <template v-for="gt in gameTypes">
+                <option>{{gt}}</option>
+              </template>
+            </select>
             <button class='tertiary' @click="startGame()">Начать зачёт</button>
           </template>
         </div>

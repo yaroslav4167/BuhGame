@@ -85,7 +85,9 @@ data: {
   fails: 0,
   text1: 'Buh of Chet',
   qType: 1,
-  time: ''
+  time: '',
+  gameType: 'Тесты и вопросы',
+  gameTypes: ['Тесты и вопросы', 'Только тесты', 'Только вопросы']
 },
 methods: {
   startGame: function() {
@@ -100,10 +102,20 @@ methods: {
 	this.questsToZ = this.questsToZ.sort(function(){
 	  return Math.random() - 0.5;
 	});
-	//Меняем у половины ответ с вопросом, помечаем что вопрос типа "2"
-	for(i = 0; i < this.questsToZ.length/2; i++) {
-	  this.questsToZ[i] = [this.questsToZ[i][1], this.questsToZ[i][0], 2];
-	};
+  //Если выбран вариант тесты и вопросы
+  if(this.gameType == 'Тесты и вопросы') {
+  	//Меняем у половины ответ с вопросом, помечаем что вопрос типа "2"
+  	for(i = 0; i < this.questsToZ.length/2; i++) {
+  	  this.questsToZ[i] = [this.questsToZ[i][1], this.questsToZ[i][0], 2];
+  	};
+  } else if(this.gameType == 'Только тесты') {
+    //Меняем у всех ответ с вопросом, помечаем что вопрос типа "2"
+  	for(i = 0; i < this.questsToZ.length; i++) {
+  	  this.questsToZ[i] = [this.questsToZ[i][1], this.questsToZ[i][0], 2];
+  	};
+  } else if(this.gameType == 'Только вопросы') {
+    //Меняем местами вопрос с заданием
+  }
 	//Перемешаем массив
 	this.questsToZ = this.questsToZ.sort(function(){
 	  return Math.random() - 0.5;
